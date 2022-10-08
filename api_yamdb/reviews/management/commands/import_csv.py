@@ -113,7 +113,7 @@ class Command(BaseCommand):
                 raise DoesNotExistFunctionError(func_name, 'не определена.')
             except IntegrityError:
                 raise DataAlreadyExistError(model_['model'],
-                                       'данные уже существуют в бд')
+                                            'данные уже существуют в бд')
 
     def get_data_path(self) -> str:
         """Формирует путь к каталогу с csv файлами."""
