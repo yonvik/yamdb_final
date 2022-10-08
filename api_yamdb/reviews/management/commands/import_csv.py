@@ -9,10 +9,11 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from reviews import models
-from reviews.exceptions.import_csv import (DataAlreadyExist,
-                                           DoesNotExistFunction, NotFoundPath,
-                                           NotSetStaticfilesDir,
-                                           UnexpectedFile)
+from reviews.exceptions.import_csv import (ErrorDataAlreadyExist,
+                                           ErrorDoesNotExistFunction,
+                                           ErrorNotFoundPath,
+                                           ErrorNotSetStaticfilesDir,
+                                           ErrorUnexpectedFile)
 
 
 class Command(BaseCommand):
@@ -64,7 +65,7 @@ class Command(BaseCommand):
     def parse_file(self, path: str, file_name: str) -> None:
         """Формирует из файла массив для записи."""
         if self._MODELS_OR_LINKS.get(file_name) is None:
-            raise UnexpectedFile('Непредвиденный файл: ', file_name)
+            raise ErrorUnexpectedFile('Непредвиденный файл: ', file_name)
         with codecs.open(f'{path}/{file_name}', 'r', 'utf_8_sig') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
@@ -109,16 +110,16 @@ class Command(BaseCommand):
                 func = getattr(self, func_name)
                 func(model_)
             except AttributeError:
-                raise DoesNotExistFunction(func_name, 'не определена.')
+                raise ErrorDoesNotExistFunction(func_name, 'не определена.')
             except IntegrityError:
-                raise DataAlreadyExist(model_['model'],
+                raise ErrorDataAlreadyExist(model_['model'],
                                        'данные уже существуют в бд')
 
     def get_data_path(self) -> str:
         """Формирует путь к каталогу с csv файлами."""
         if self.data_path is None:
             if len(settings.STATICFILES_DIRS) < 1:
-                raise NotSetStaticfilesDir(
+                raise ErrorNotSetStaticfilesDir(
                     'Не задан путь для статических файлов.')
             path = settings.STATICFILES_DIRS[self._INDEX_STATICFILES_DIRS]
             return path + 'data/'
@@ -127,7 +128,7 @@ class Command(BaseCommand):
     def validate_dir(self, path: str) -> None:
         """Проверка наличия каталога."""
         if not os.path.isdir(path):
-            raise NotFoundPath('Не найден каталог: ', path)
+            raise ErrorNotFoundPath('Не найден каталог: ', path)
 
     def get_csv_files(self, path: str) -> List[str]:
         """Формирование списка csv файлов."""
@@ -147,15 +148,15 @@ class Command(BaseCommand):
             for file in files:
                 self.parse_file(path, file)
             self.write_db()
-        except UnexpectedFile as error:
+        except ErrorUnexpectedFile as error:
             print(error)
-        except DoesNotExistFunction as error:
+        except ErrorDoesNotExistFunction as error:
             print(error)
-        except DataAlreadyExist as error:
+        except ErrorDataAlreadyExist as error:
             print(error)
-        except NotSetStaticfilesDir as error:
+        except ErrorNotSetStaticfilesDir as error:
             print(error)
             sys.exit(self._SYS_EXIT_CODE)
-        except NotFoundPath as error:
+        except ErrorNotFoundPath as error:
             print(error)
             sys.exit(self._SYS_EXIT_CODE)
