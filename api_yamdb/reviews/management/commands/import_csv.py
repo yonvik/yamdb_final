@@ -10,7 +10,8 @@ from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from reviews import models
 from reviews.exceptions.import_csv import (DataAlreadyExistError,
-                                           DoesNotExistFunctionError, NotFoundPathError,
+                                           DoesNotExistFunctionError,
+                                           NotFoundPathError,
                                            NotSetStaticfilesDirError,
                                            UnexpectedFileError)
 
