@@ -1,5 +1,4 @@
 import django_filters
-
 from reviews import models as review_models
 
 

@@ -8,12 +8,11 @@ from typing import List
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
-
-from reviews.exceptions.import_csv import (DataAlreadyExist,
-                                           DoesNotExistFunction,
-                                           NotFoundPath, NotSetStaticfilesDir,
-                                           UnexpectedFile)
 from reviews import models
+from reviews.exceptions.import_csv import (DataAlreadyExist,
+                                           DoesNotExistFunction, NotFoundPath,
+                                           NotSetStaticfilesDir,
+                                           UnexpectedFile)
 
 
 class Command(BaseCommand):

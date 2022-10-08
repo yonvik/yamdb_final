@@ -12,11 +12,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from reviews.models import (Review, Title, Genre, Category, User,
-                            START_RANGE_CONFIRMATION_CODE,
-                            END_RANGE_CONFIRMATION_CODE,
-                            NOT_PIN_CONFIRMATION_CODE)
+from reviews.models import (END_RANGE_CONFIRMATION_CODE,
+                            NOT_PIN_CONFIRMATION_CODE,
+                            START_RANGE_CONFIRMATION_CODE, Category, Genre,
+                            Review, Title, User)
 
 from . import paginators, permissions, serializers
 from .filters import TitleFilter
