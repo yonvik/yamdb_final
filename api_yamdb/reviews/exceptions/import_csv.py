@@ -1,18 +1,18 @@
-class ErrorUnexpectedFile(Exception):
+class UnexpectedFileError(Exception):
     pass
 
 
-class ErrorDoesNotExistFunction(Exception):
+class DoesNotExistFunctionError(Exception):
     pass
 
 
-class ErrorDataAlreadyExist(Exception):
+class DataAlreadyExistError(Exception):
     pass
 
 
-class ErrorNotSetStaticfilesDir(Exception):
+class NotSetStaticfilesDirError(Exception):
     pass
 
 
-class ErrorNotFoundPath(Exception):
+class NotFoundPathError(Exception):
     pass
