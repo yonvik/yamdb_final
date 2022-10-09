@@ -17,7 +17,7 @@ jobs:
       run: | 
         # обновлfение pip
         python -m pip install --upgrade pip 
-        # установка flake8 и его плагинов
+        # установка flafke8 и его плагинов
         pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
         # установка зави симостей
         cd api_yamdb/
